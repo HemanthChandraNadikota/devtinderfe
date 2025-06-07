@@ -9,6 +9,7 @@ const Login = () => {
 
     const [email, setEmail] = useState('goldenberg@gmail.com')
     const [password, setPassword] = useState('goldenberg')
+    const [errorMessage, setErrorMessage] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -19,6 +20,7 @@ const Login = () => {
             dispatch(addUser(response.data.data))
             navigate('/feed')
         } catch (error) {
+            setErrorMessage(error?.response?.data)
             console.log(error)
         }
     }
@@ -35,6 +37,7 @@ const Login = () => {
                 <legend className="fieldset-legend">Password</legend>
                 <input type="text" className="input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Type here" />
             </fieldset>
+            <p className="text-red-500">{errorMessage}</p>
             <button className="btn btn-primary" onClick={handleLogin}>Login</button>
             </div>
         </div>
