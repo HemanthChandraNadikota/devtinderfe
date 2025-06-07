@@ -3,7 +3,7 @@ import { BASE_URL } from '../utils/constants'
 import axios from 'axios'
 import UserCard from './UserCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { setRequests } from '../utils/requestSlice'
+import { setRequests, removeRequest } from '../utils/requestSlice'
 
 const Requests = () => {
     const requests = useSelector((store) => store.request)
@@ -13,6 +13,17 @@ const Requests = () => {
         try {
             const response = await axios.get(`${BASE_URL}/user/requests/received`, {withCredentials: true})
             dispatch(setRequests(response.data.connectionRequests))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const reviewRequest = async (requestId, action) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/request/review/${action}/${requestId}`,{}, {withCredentials: true})
+
+            dispatch(removeRequest(requestId))
+
         } catch (error) {
             console.log(error)
         }
@@ -30,7 +41,7 @@ const Requests = () => {
     return (
         <div className="flex flex-col gap-4 justify-center items-center mt-10 gap-y-10">
             {requests && requests.map((request)=>(
-                <UserCard key={request._id} profile={request.fromUserId} from="requests" />
+                <UserCard key={request._id} profile={request.fromUserId} requestId={request._id} from="requests" reviewRequest={reviewRequest} />
             ))}
         </div>
     )
