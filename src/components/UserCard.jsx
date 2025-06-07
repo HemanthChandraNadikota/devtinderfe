@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserCard = ({profile}) => {
+const UserCard = ({profile, from = "everywhere"}) => {
   const {firstName, lastName, about, photoUrl, age, gender} = profile
   return (
     <div className="card bg-base-300 w-96 shadow-sm">
@@ -14,8 +14,11 @@ const UserCard = ({profile}) => {
             <p>{about}</p>
             <p>{gender}     {age}</p>
             <div className="card-actions justify-between">
-                <button className="btn btn-secondary">Dislike</button>
-                <button className="btn btn-primary">Like</button>
+                {from === "everywhere" && <button className="btn btn-secondary">Dislike</button>}
+                {from === "everywhere" && <button className="btn btn-primary">Like</button>}
+                {from === "requests" && <button className="btn btn-success">Accept</button>}
+                {from === "requests" && <button className="btn btn-error">Reject</button>}
+                {from === "connections" && <button className="btn btn-secondary">Remove</button>}
             </div>
         </div>
     </div>
