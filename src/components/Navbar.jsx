@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { removeUser } from '../utils/userSlice'
 import { BASE_URL } from '../utils/constants'
 import axios from 'axios'
+import { removeAllFeed } from '../utils/feedSlice'
 
 const Navbar = () => {
 
@@ -14,6 +15,7 @@ const Navbar = () => {
     try {
       const response = await axios.post(`${BASE_URL}/logout`,{}, { withCredentials: true })
       dispatch(removeUser())
+      dispatch(removeAllFeed())
       return navigate('/login')
     } catch (error) {
       console.log(error)
